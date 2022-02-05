@@ -1,7 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-const User = require("../models/user")
-
+const User = require("../models/users")
 
 module.exports = function (passport) {
     passport.use(
@@ -19,9 +18,8 @@ module.exports = function (passport) {
                         });
                     }
                     //  match pass
-                    bcrypt.compare(password, user.pasword, (err, isMatch) => {
+                    bcrypt.compare(password, user.pasword, function (err, isMatch) {
                         if (err) throw err;
-
                         if (isMatch) {
                             return done(null, user);
                         } else {
@@ -34,13 +32,14 @@ module.exports = function (passport) {
                 .catch((err) => {
                     console.log("error", err);
                 })
+            console.log(password);
         })
     )
-    passport.serializeUser(function(user, done){
+    passport.serializeUser(function (user, done) {
         done(null, user.id)
     });
-    passport.deserializeUser(function(id, done){
-        User.findOneById(id, function(err, user){
+    passport.deserializeUser(function (id, done) {
+        User.findOneById(id, function (err, user) {
             done(err, user);
         });
     });
