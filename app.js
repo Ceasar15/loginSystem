@@ -4,16 +4,20 @@ const app = express();
 const mongoose = require('mongoose');
 const expressEjsLayout = require('express-ejs-layouts');
 
-//mongoose connection
+const session = require('express-session');
+const flash = require('connect-flash');
 
-mongoose.connect('mongodb://localhost:27017/test', {
-    userNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => {
-    console.log("DB Connected...")
-}).catch((err) => {
-    console.warn("DB NOT Connected...!!!")
+
+//mongoose connection
+const connection = require('./config/db.config')
+connection.once('open', ()=> {
+    console.log("DB Connected")
 })
+connection.on('error', () => {
+    console.log("DB Connection Error")
+})
+
+
 
 // EJS
 app.set('view engine', 'ejs');
@@ -23,6 +27,21 @@ app.use(expressEjsLayout);
 app.use(express.urlencoded({
     extended: false
 }));
+ 
+// express session
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
+
+//use flash
+app.use(flash());app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    next();
+})
 
 //Routes 
 app.use('/', require('./routes/index'))
