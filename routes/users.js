@@ -60,7 +60,13 @@ router.post('/register', (req, res) => {
                 errors.push({
                     msg: "Email already registered",
                 });
-                render('register', {errors, name, email, password, password2});
+                render('register', {
+                    errors,
+                    name,
+                    email,
+                    password,
+                    password2
+                });
             } else {
                 const newUser = new User({
                     name: name,
@@ -73,8 +79,8 @@ router.post('/register', (req, res) => {
                     newUser.save()
                         .then((value) => {
                             console.log(value)
-                            req.flash('success_msg','You have now registered!');
-                            res.redirect('users/login');
+                            req.flash('success_msg', 'You have now registered!');
+                            res.redirect('/users/login');
                         })
                         .catch(value => console.log(value));
                 }))
@@ -89,7 +95,9 @@ router.post('/login', (req, res) => {
 
 // logout
 router.get('/logout', (req, res) => {
-
+    req.logout();
+    req.flash('success_msg', 'Now logged out');
+    res.redirect('/users/login');
 })
 
 module.exports = router;
