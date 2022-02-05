@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 // declare a Database string URI
-const DB_URI = 'mongodb://localhost:27017/urlShortner'
+const DB_URI = 'mongodb://localhost:27017/loginSystem'
 
 // establishing a database connection
 mongoose.connect(DB_URI, {

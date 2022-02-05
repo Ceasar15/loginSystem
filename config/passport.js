@@ -18,9 +18,9 @@ module.exports = function (passport) {
                         });
                     }
                     //  match pass
-                    bcrypt.compare(password, user.pasword, function (err, isMatch) {
-                        if (err) throw err;
-                        if (isMatch) {
+                    bcrypt.compare(password, user.pasword, function(err, isMatch) {
+                        if (err) throw new Error(err);
+                        else if (isMatch) {
                             return done(null, user);
                         } else {
                             return done(null, false, {
@@ -32,7 +32,7 @@ module.exports = function (passport) {
                 .catch((err) => {
                     console.log("error", err);
                 })
-            console.log(password);
+            console.log(email);
         })
     )
     passport.serializeUser(function (user, done) {
