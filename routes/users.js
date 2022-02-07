@@ -89,6 +89,7 @@ router.post('/register', (req, res) => {
     }
 })
 
+// local login
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: "/dashboard",
@@ -96,6 +97,17 @@ router.post('/login', (req, res, next) => {
         failureFlash: true,
     })(req, res, next)
 })
+
+// OAuth Login
+router.get('/auth/google',
+    passport.authenticate('google', {
+        scope: ['email', 'profile']
+    }));
+
+// router.get('/auth/google/callback', passport.authenticate('google', {
+//     successRedirect: '/dashboard',
+//     failureRedirect: '/login'
+// }));
 
 // logout
 router.get('/logout', (req, res) => {

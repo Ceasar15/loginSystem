@@ -55,6 +55,12 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/index'))
 app.use('/users', require('./routes/users'))
 
-app.listen(9000, function () {
+app.get('/auth/google/callback', passport.authenticate('google', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/login',
+    // session: false
+}));
+
+app.listen(3001, function () {
     console.log("Server Started......")
 })

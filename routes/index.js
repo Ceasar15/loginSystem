@@ -12,11 +12,9 @@ router.get('/register', function (req, res) {
 })
 
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
-    // user: req.user
     res.render('dashboard',{
         user: req.user
     });
-    // res.render('dashboard', user);
 })
 
 
