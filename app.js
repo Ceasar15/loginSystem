@@ -55,6 +55,6 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/index'))
 app.use('/users', require('./routes/users'))
 
-app.listen(3000, function () {
+app.listen(9000, function () {
     console.log("Server Started......")
 })
